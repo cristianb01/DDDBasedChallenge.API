@@ -22,7 +22,7 @@ namespace DDDBasedChallenge.Domain.Entities
             Name = name;
         }
 
-        public Response<Category> Create(List<Product> products, string name)
+        public static Response<Category> Create(List<Product> products, string name)
         {
             var category = new Category(products, name);
 

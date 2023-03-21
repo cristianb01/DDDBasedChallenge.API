@@ -40,9 +40,9 @@ namespace DDDBasedChallenge.Application.Features
                 return new Response<ProductResponseDTO>(response.Message);
             }
 
-            await this._productRepository.AddAsync(response.Data, cancellationToken);
+            var addedProduct = await this._productRepository.AddAsync(response.Data, cancellationToken);
 
-            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(response.Data));
+            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(addedProduct));
         }
 
     }
