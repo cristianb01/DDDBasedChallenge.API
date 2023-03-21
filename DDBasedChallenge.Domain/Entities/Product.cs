@@ -35,6 +35,20 @@ namespace DDDBasedChallenge.Domain.Entities
             return new Response<Product>(createdProduct);
         }
 
+        public Response<Product> SetName(string name)
+        {
+            this.Name = name;
+            this.UpdatedDate= DateTime.Now;
+
+            var validationResult = new Validator().Validate(this);
+
+            if(!validationResult.IsValid) 
+            {
+                return new Response<Product>(validationResult.ToString());
+            }
+            return new Response<Product>(this);
+        }
+
 
         public class Validator : AbstractValidator<Product>
         {

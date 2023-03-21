@@ -9,5 +9,6 @@ namespace DDDBasedChallenge.Application.Features
     {
         Task<Response<ProductResponseDTO>> Create(ProductRequestDTO product, CancellationToken cancellationToken);
         Task<IEnumerable<ProductResponseDTO>> GetAll(CancellationToken cancellationToken);
+        Task<Response<ProductResponseDTO>> SetNewName(string newName, int productId, CancellationToken cancellationToken);
     }
 }

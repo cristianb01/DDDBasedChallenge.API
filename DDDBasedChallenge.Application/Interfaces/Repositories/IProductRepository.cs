@@ -11,5 +11,6 @@ namespace DDDBasedChallenge.Application.Interfaces.Repositories
     {
         Task<Product> AddAsync(Product product, CancellationToken cancellationToken);
         Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken);
+        Task<Product> GetByIdAsync(int id);
     }
 }

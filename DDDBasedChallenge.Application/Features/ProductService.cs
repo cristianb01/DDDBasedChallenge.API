@@ -45,5 +45,23 @@ namespace DDDBasedChallenge.Application.Features
             return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(addedProduct));
         }
 
+        public async Task<Response<ProductResponseDTO>> SetNewName(string newName, int productId, CancellationToken cancellationToken)
+        {
+            var product = await this._productRepository.GetByIdAsync(productId);
+
+            if (product is null) 
+            {
+                return new Response<ProductResponseDTO>("Could not find any product with specified id");
+            }
+
+            var response = product.SetName(newName);
+
+            if (!response.Succeeded) 
+            {
+                return new Response<ProductResponseDTO>(response.Message);
+            }
+
+            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(response.Data));
+        }
     }
 }

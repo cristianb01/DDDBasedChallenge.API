@@ -30,5 +30,10 @@ namespace DDDBasedChallenge.Persistence.Repositories
         {
             return await this._context.Products.ToListAsync(cancellationToken);
         }
+
+        public async Task<Product> GetByIdAsync(int id)
+        {
+            return await this._context.Products.FindAsync(id);
+        }
     }
 }
