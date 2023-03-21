@@ -33,18 +33,16 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<ProductResponseDTO>> Create(ProductRequestDTO productDTO, CancellationToken cancellationToken)
         {
-            var createdProduct = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId, productDTO.CreationDate);
+            var response = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId, productDTO.CreationDate);
 
-            var validationResult = new Product.Validator().Validate(createdProduct);
-
-            if (!validationResult.IsValid)
+            if (!response.Succeeded)
             {   
-                return new Response<ProductResponseDTO>(validationResult.ToString());
+                return new Response<ProductResponseDTO>(response.Message);
             }
 
-            await this._productRepository.AddAsync(createdProduct, cancellationToken);
+            await this._productRepository.AddAsync(response.Data, cancellationToken);
 
-            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(createdProduct));
+            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(response.Data));
         }
 
     }

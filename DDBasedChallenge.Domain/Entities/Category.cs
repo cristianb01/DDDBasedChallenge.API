@@ -1,4 +1,6 @@
-﻿using DDDBasedChallenge.Domain.Abstract;
+﻿using DDDBasedChallenge.Application.Communication;
+using DDDBasedChallenge.Domain.Abstract;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,27 @@ namespace DDDBasedChallenge.Domain.Entities
             Name = name;
         }
 
+        public Response<Category> Create(List<Product> products, string name)
+        {
+            var category = new Category(products, name);
 
+            var validationResult = new Validator().Validate(category);
+
+            if (!validationResult.IsValid) 
+            { 
+                return new Response<Category>(validationResult.ToString());
+            }
+
+            return new Response<Category>(category);
+        }
+
+        public class Validator : AbstractValidator<Category> 
+        {
+            public Validator()
+            {
+                RuleFor(x=> x.Name).NotEmpty().WithMessage("Category name can not be empty");
+            }
+        }
 
     }
 }
