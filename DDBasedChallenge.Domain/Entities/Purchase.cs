@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace DDDBasedChallenge.Domain.Entities
 {
-    public class Category : Entity
+    public class Purchase : Entity
     {
-        private readonly List<Product> _products;
-        public string Name { get; set; }
-        public IReadOnlyCollection<Product> Products => _products;
-
-
+        public DateTime Date { get; set; }
+        public decimal Price { get; set; }
+        public IList<ProductPurchase> Products { get; set; } = new List<ProductPurchase>();
     }
 }

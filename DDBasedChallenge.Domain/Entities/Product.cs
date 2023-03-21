@@ -1,4 +1,5 @@
 ﻿using DDDBasedChallenge.Domain.Abstract;
+using FluentValidation;
 
 namespace DDDBasedChallenge.Domain.Entities
 {
@@ -26,6 +27,16 @@ namespace DDDBasedChallenge.Domain.Entities
             return createdProduct;
         }
 
+
+        public class Validator : AbstractValidator<Product>
+        {
+            public Validator()
+            {
+                RuleFor(x => x.Name).NotEmpty().WithMessage("Name can not be empty");
+                RuleFor(x => x.QuantityInPackage).NotEmpty().WithMessage("Please specify quantity in package");
+                RuleFor(x => x.CategoryId).NotEmpty().WithMessage("The product should to a Category");
+            }
+        }
     }
 
 }
