@@ -33,7 +33,7 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<ProductResponseDTO>> Create(ProductRequestDTO productDTO, CancellationToken cancellationToken)
         {
-            var createdProduct = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId);
+            var createdProduct = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId, productDTO.CreationDate);
 
             var validationResult = new Product.Validator().Validate(createdProduct);
 

@@ -11,6 +11,7 @@ namespace DDDBasedChallenge.Application.DTOs.Request
     {
         public string Name { get; set; }
         public short QuantityInPackage { get; set; }
+        public DateTime CreationDate{ get; set; }
 
         public int CategoryId { get; set; }
 
