@@ -36,5 +36,12 @@ namespace DDDBasedChallenge.Application.Features
 
             return new Response<CategoryResponseDTO>(_mapper.Map<CategoryResponseDTO>(addedCategory));
         }
+
+        public async Task<IEnumerable<CategoryResponseDTO>> GetAll(CancellationToken cancellationToken)
+        {
+            var categories = await this._repository.GetAllAsync(cancellationToken);
+
+            return this._mapper.Map<IEnumerable<CategoryResponseDTO>>(categories);
+        }
     }
 }

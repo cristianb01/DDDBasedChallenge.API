@@ -1,5 +1,6 @@
 ﻿using DDDBasedChallenge.Application.Interfaces.Repositories;
 using DDDBasedChallenge.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace DDDBasedChallenge.Persistence.Repositories
             await this._context.SaveChangesAsync(cancellationToken);
 
             return addedCategory;
+        }
+
+        public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await this._context.Categories.Include(c => c.Products).ToListAsync(cancellationToken);
         }
     }
 }

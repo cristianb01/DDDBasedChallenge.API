@@ -10,5 +10,6 @@ namespace DDDBasedChallenge.Application.Interfaces.Repositories
     public interface ICategoryRepository
     {
         Task<Category> AddAsync(Category category, CancellationToken cancellationToken);
+        Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken);
     }
 }
