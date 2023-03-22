@@ -1,7 +1,7 @@
 ﻿using DDDBasedChallenge.Domain.Entities;
 using DDDBasedChallenge.Persistence;
 
-namespace DDDBasedChallenge.API
+namespace DDDBasedChallenge.API.Helpers
 {
     public static class DbContextSeed
     {

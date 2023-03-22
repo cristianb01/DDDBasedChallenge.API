@@ -24,7 +24,7 @@ namespace DDDBasedChallenge.API.Controllers
             return this._categoryService.Create(categoryRequestDTO, cancellationToken);
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public Task<IEnumerable<CategoryResponseDTO>> GetAll(CancellationToken cancellationToken)
         {
             return this._categoryService.GetAll(cancellationToken);

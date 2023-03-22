@@ -21,37 +21,5 @@ namespace DDDBasedChallenge.Persistence
         {
             optionsBuilder.UseInMemoryDatabase(databaseName: "DDDBasedChallengeDb");
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
-        {
-            //var products = new List<Product>
-            //{
-            //    Product.Create("Product 1", 3, 1, DateTime.Now).Data,
-            //    Product.Create("Product 2", 1, 1, DateTime.Now).Data,
-            //    Product.Create("Product 3", 5, 1, DateTime.Now).Data,
-            //    Product.Create("Product 4", 6, 1, DateTime.Now).Data,
-            //    Product.Create("Product 5", 8, 1, DateTime.Now).Data
-            //};
-
-            //var categories = new List<Category>
-            //{
-            //    Category.Create("Category 1").Data,
-            //    Category.Create("Category 2").Data,
-            //    Category.Create("Category 3").Data,
-            //    Category.Create("Category 4").Data,
-            //    Category.Create("Category 5").Data,
-            //    Category.Create("Category 6").Data,
-            //};
-
-            //modelBuilder.Entity<Category>(entity =>
-            //{
-            //    entity.HasData(categories);
-            //});
-
-            //modelBuilder.Entity<Product>(entity =>
-            //{
-            //    entity.HasData(products);
-            //});
-        }
     }
 }

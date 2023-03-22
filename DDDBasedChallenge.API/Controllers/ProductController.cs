@@ -19,7 +19,7 @@ namespace DDDBasedChallenge.API.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public Task<IEnumerable<ProductResponseDTO>> GetAll(CancellationToken cancellationToken)
         {
             return this._productService.GetAll(cancellationToken);
@@ -31,7 +31,7 @@ namespace DDDBasedChallenge.API.Controllers
             return this._productService.Create(productRequestDTO, cancellationToken);
         }
 
-        [HttpPut]
+        [HttpPut("update-name")]
         public Task<Response<ProductResponseDTO>> UpdateName(string newName, int productId, CancellationToken cancellationToken) 
         { 
             return this._productService.SetNewName(newName, productId, cancellationToken);
