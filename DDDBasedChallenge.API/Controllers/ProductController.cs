@@ -26,9 +26,15 @@ namespace DDDBasedChallenge.API.Controllers
         }
 
         [HttpPost]
-        public  Task<Response<ProductResponseDTO>> Create(ProductRequestDTO productRequestDTO, CancellationToken cancellationToken)
+        public Task<Response<ProductResponseDTO>> Create(ProductRequestDTO productRequestDTO, CancellationToken cancellationToken)
         {
             return this._productService.Create(productRequestDTO, cancellationToken);
+        }
+
+        [HttpPut]
+        public Task<Response<ProductResponseDTO>> UpdateName(string newName, int productId, CancellationToken cancellationToken) 
+        { 
+            return this._productService.SetNewName(newName, productId, cancellationToken);
         }
     }
 }

@@ -12,9 +12,9 @@ namespace DDDBasedChallenge.Persistence.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly DDDBaseChallengeContext _context;
+        private readonly DDDBasedChallengeContext _context;
 
-        public ProductRepository(DDDBaseChallengeContext context)
+        public ProductRepository(DDDBasedChallengeContext context)
         {
             this._context = context;
         }
@@ -22,6 +22,8 @@ namespace DDDBasedChallenge.Persistence.Repositories
         public async Task<Product> AddAsync(Product product, CancellationToken cancellationToken)
         {
             var addedProduct = (await this._context.Products.AddAsync(product, cancellationToken)).Entity;
+
+            await this._context.SaveChangesAsync(cancellationToken);
 
             return addedProduct;
         }

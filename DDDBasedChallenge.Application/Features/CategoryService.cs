@@ -25,7 +25,7 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<CategoryResponseDTO>> Create(CategoryRequestDTO categoryRequest, CancellationToken cancellationToken)
         {
-            var response = Category.Create(this._mapper.Map<List<Product>>(categoryRequest.Products), categoryRequest.Name);
+            var response = Category.Create(categoryRequest.Name);
 
             if (!response.Succeeded)
             {

@@ -1,4 +1,5 @@
-﻿using DDDBasedChallenge.Domain.Entities;
+﻿using DDDBasedChallenge.Application.Interfaces.Repositories;
+using DDDBasedChallenge.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DDDBasedChallenge.Persistence.Repositories
 {
-    public class CategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
-        private readonly DDDBaseChallengeContext _context;
+        private readonly DDDBasedChallengeContext _context;
 
-        public CategoryRepository(DDDBaseChallengeContext context)
+        public CategoryRepository(DDDBasedChallengeContext context)
         {
             _context = context;
         }
@@ -19,6 +20,8 @@ namespace DDDBasedChallenge.Persistence.Repositories
         public async Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
         {
             var addedCategory = (await this._context.Categories.AddAsync(category, cancellationToken)).Entity;
+
+            await this._context.SaveChangesAsync(cancellationToken);
 
             return addedCategory;
         }

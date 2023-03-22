@@ -9,9 +9,10 @@ namespace DDDBasedChallenge.Domain.Entities
         public string Name { get; private set; }
         public short QuantityInPackage { get; private set; }
         public bool IsNew { get; private set; }
-        public int CategoryId { get; private set; }
         public DateTime CreationDate { get; private set; }
 
+        public int CategoryId { get; private set; }
+        public Category Category { get; set; }
 
         private Product(string name, short quantityInPackage, int categoryId, DateTime creationDate)
         {

@@ -9,6 +9,7 @@ namespace DDDBasedChallenge.Application.Mapping
         public EntityToDTOProfile() 
         {
             CreateMap<Product, ProductResponseDTO>();
+            CreateMap<Category, CategoryResponseDTO>();
         }
     }
 }

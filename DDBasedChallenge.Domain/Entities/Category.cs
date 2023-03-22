@@ -16,15 +16,15 @@ namespace DDDBasedChallenge.Domain.Entities
         public string Name { get; private set; }
         public IReadOnlyCollection<Product> Products => _products;
 
-        public Category(List<Product> products, string name)
+        public Category(string name)
         {
-            _products = products;
+            this._products = new();
             Name = name;
         }
 
-        public static Response<Category> Create(List<Product> products, string name)
+        public static Response<Category> Create(string name)
         {
-            var category = new Category(products, name);
+            var category = new Category(name);
 
             var validationResult = new Validator().Validate(category);
 
@@ -34,6 +34,13 @@ namespace DDDBasedChallenge.Domain.Entities
             }
 
             return new Response<Category>(category);
+        }
+
+        public Category AddProduct(Product product)
+        {
+            this._products.Add(product);
+
+            return this;
         }
 
         public class Validator : AbstractValidator<Category> 

@@ -8,7 +8,6 @@ namespace DDDBasedChallenge.Application.DTOs.Request
 {
     public class CategoryRequestDTO
     {
-        public List<ProductRequestDTO> Products { get; set; }
         public string Name { get; set; }
     }
 }
