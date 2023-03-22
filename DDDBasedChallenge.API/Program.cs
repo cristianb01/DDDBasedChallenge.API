@@ -1,7 +1,9 @@
+using DDDBasedChallenge.API;
 using DDDBasedChallenge.Application.Features;
 using DDDBasedChallenge.Application.Interfaces.Repositories;
 using DDDBasedChallenge.Persistence;
 using DDDBasedChallenge.Persistence.Repositories;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DDDBasedChallengeContext>();
 
 var app = builder.Build();
+
+
+// Seed data to InMemory Database
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DDDBasedChallengeContext>();
+    DbContextSeed.SeedData(dbContext);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
