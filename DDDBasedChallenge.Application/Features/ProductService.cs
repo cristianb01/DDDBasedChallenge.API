@@ -47,7 +47,7 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<ProductResponseDTO>> SetNewName(string newName, int productId, CancellationToken cancellationToken)
         {
-            var product = await this._productRepository.GetByIdAsync(productId);
+            var product = await this._productRepository.GetByIdAsync(productId, cancellationToken);
 
             if (product is null) 
             {
@@ -62,6 +62,50 @@ namespace DDDBasedChallenge.Application.Features
             }
 
             return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(response.Data));
+        }
+
+        public async Task<Response<bool>> Delete(int productId, CancellationToken cancellationToken)
+        {
+            var existingProduct = await this._productRepository.GetByIdAsync(productId, cancellationToken);
+
+            if (existingProduct is null)
+            {
+                return new Response<bool>("Specified product does not exist");
+            }
+
+            var isDeleted = await this._productRepository.Delete(existingProduct);
+
+            if (isDeleted)
+            {
+                return new Response<bool>(true);
+            }
+            else
+            {
+                return new Response<bool>("Could not delete product");
+            }
+
+        }
+
+        public async Task<Response<ProductResponseDTO>> Update(ProductRequestDTO productRequestDTO, int productId, CancellationToken cancellationToken)
+        {
+            var existingProduct = await this._productRepository.GetByIdAsync(productId, cancellationToken);
+
+            if (existingProduct is null)
+            {
+                return new Response<ProductResponseDTO>("Specified product does not exist");
+            }
+
+            var updatedProductResult = existingProduct.Update(productRequestDTO.Name, productRequestDTO.QuantityInPackage);
+
+            if (!updatedProductResult.Succeeded)
+            {
+                return new Response<ProductResponseDTO>(updatedProductResult.Message);
+            }
+
+            var updateResult = await this._productRepository.Update(updatedProductResult.Data);
+
+            return new Response<ProductResponseDTO>(this._mapper.Map<ProductResponseDTO>(updateResult));
+
         }
     }
 }

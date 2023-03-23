@@ -50,14 +50,30 @@ namespace DDDBasedChallenge.Domain.Entities
             return new Response<Product>(this);
         }
 
+        public Response<Product> Update(string name, short quantityInPackage)
+        {
+            this.Name = name;
+            this.QuantityInPackage = quantityInPackage;
+            this.UpdatedDate = DateTime.Now;
+
+            var validationResult = new Validator().Validate(this);
+
+            if (!validationResult.IsValid) 
+            {
+                return new Response<Product>(validationResult.ToString());
+            }
+
+            return new Response<Product>(this); 
+        }
+
 
         public class Validator : AbstractValidator<Product>
         {
             public Validator()
             {
                 RuleFor(x => x.Name).NotEmpty().WithMessage("Name can not be empty");
-                RuleFor(x => x.QuantityInPackage).NotEmpty().WithMessage("Please specify quantity in package");
-                RuleFor(x => x.CategoryId).NotEmpty().WithMessage("The product should to a Category");
+                RuleFor(x => x.QuantityInPackage).Must(x => x > 0).WithMessage("Quantity in package must be greater than 0");
+                RuleFor(x => x.CategoryId).NotEmpty().WithMessage("The product should belong to a Category");
                 RuleFor(x => x.CreationDate).NotEmpty().WithMessage("Creation date field must not be null");
             }
         }

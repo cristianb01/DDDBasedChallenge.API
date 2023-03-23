@@ -36,5 +36,17 @@ namespace DDDBasedChallenge.API.Controllers
         { 
             return this._productService.SetNewName(newName, productId, cancellationToken);
         }
+
+        [HttpDelete("{productId:int}")]
+        public Task<Response<bool>> Delete(int productId, CancellationToken cancellationToken) 
+        {
+            return this._productService.Delete(productId, cancellationToken);
+        }
+
+        [HttpPut("{productId:int}")]
+        public Task<Response<ProductResponseDTO>> Update(int productId, ProductRequestDTO productRequestDTO, CancellationToken cancellationToken)
+        {
+            return this._productService.Update(productRequestDTO, productId, cancellationToken);
+        }
     }
 }
