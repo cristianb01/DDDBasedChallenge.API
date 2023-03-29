@@ -25,14 +25,16 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<CategoryResponseDTO>> Create(CategoryRequestDTO categoryRequest, CancellationToken cancellationToken)
         {
-            var response = Category.Create(categoryRequest.Name);
+            var createdCategory = Category.Create(categoryRequest.Name);
 
-            if (!response.Succeeded)
+            var validationResult = new Category.Validator().Validate(createdCategory);
+
+            if (!validationResult.IsValid)
             {
-                return new Response<CategoryResponseDTO>(response.Message);
+                return new Response<CategoryResponseDTO>(validationResult.ToString());
             }
 
-            var addedCategory = await this._repository.AddAsync(response.Data, cancellationToken);
+            var addedCategory = await this._repository.AddAsync(createdCategory, cancellationToken);
 
             return new Response<CategoryResponseDTO>(_mapper.Map<CategoryResponseDTO>(addedCategory));
         }

@@ -22,48 +22,25 @@ namespace DDDBasedChallenge.Domain.Entities
             CreationDate = creationDate;
         }
 
-        public static Response<Product> Create(string name, short quantityInPackage, int categoryId, DateTime creationDate)
+        public static Product Create(string name, short quantityInPackage, int categoryId, DateTime creationDate)
         {
             var createdProduct = new Product(name, quantityInPackage, categoryId, creationDate);
             createdProduct.IsNew = creationDate > new DateTime(2023, 01, 01);
 
-            var validationResult = new Validator().Validate(createdProduct);
-
-            if(!validationResult.IsValid)
-            {
-                return new Response<Product>(validationResult.ToString());
-            }
-            return new Response<Product>(createdProduct);
+            return createdProduct;
         }
 
-        public Response<Product> SetName(string name)
+        public void SetName(string name)
         {
             this.Name = name;
             this.UpdatedDate= DateTime.Now;
-
-            var validationResult = new Validator().Validate(this);
-
-            if(!validationResult.IsValid) 
-            {
-                return new Response<Product>(validationResult.ToString());
-            }
-            return new Response<Product>(this);
         }
 
-        public Response<Product> Update(string name, short quantityInPackage)
+        public void Update(string name, short quantityInPackage)
         {
             this.Name = name;
             this.QuantityInPackage = quantityInPackage;
             this.UpdatedDate = DateTime.Now;
-
-            var validationResult = new Validator().Validate(this);
-
-            if (!validationResult.IsValid) 
-            {
-                return new Response<Product>(validationResult.ToString());
-            }
-
-            return new Response<Product>(this); 
         }
 
 

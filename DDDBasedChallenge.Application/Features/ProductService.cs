@@ -33,14 +33,16 @@ namespace DDDBasedChallenge.Application.Features
 
         public async Task<Response<ProductResponseDTO>> Create(ProductRequestDTO productDTO, CancellationToken cancellationToken)
         {
-            var response = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId, productDTO.CreationDate);
+            var createdProduct = Product.Create(productDTO.Name, productDTO.QuantityInPackage, productDTO.CategoryId, productDTO.CreationDate);
 
-            if (!response.Succeeded)
+            var validationResult = new Product.Validator().Validate(createdProduct);
+
+            if (!validationResult.IsValid)
             {   
-                return new Response<ProductResponseDTO>(response.Message);
+                return new Response<ProductResponseDTO>(validationResult.ToString());
             }
 
-            var addedProduct = await this._productRepository.AddAsync(response.Data, cancellationToken);
+            var addedProduct = await this._productRepository.AddAsync(createdProduct, cancellationToken);
 
             return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(addedProduct));
         }
@@ -54,14 +56,16 @@ namespace DDDBasedChallenge.Application.Features
                 return new Response<ProductResponseDTO>("Could not find any product with specified id");
             }
 
-            var response = product.SetName(newName);
+            product.SetName(newName);
 
-            if (!response.Succeeded) 
+            var validationResult = new Product.Validator().Validate(product);
+
+            if (!validationResult.IsValid) 
             {
-                return new Response<ProductResponseDTO>(response.Message);
+                return new Response<ProductResponseDTO>(validationResult.ToString());
             }
 
-            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(response.Data));
+            return new Response<ProductResponseDTO>(_mapper.Map<ProductResponseDTO>(validationResult));
         }
 
         public async Task<Response<bool>> Delete(int productId, CancellationToken cancellationToken)
@@ -95,14 +99,16 @@ namespace DDDBasedChallenge.Application.Features
                 return new Response<ProductResponseDTO>("Specified product does not exist");
             }
 
-            var updatedProductResult = existingProduct.Update(productRequestDTO.Name, productRequestDTO.QuantityInPackage);
+            existingProduct.Update(productRequestDTO.Name, productRequestDTO.QuantityInPackage);
 
-            if (!updatedProductResult.Succeeded)
+            var validationResult = new Product.Validator().Validate(existingProduct);
+
+            if (!validationResult.IsValid)
             {
-                return new Response<ProductResponseDTO>(updatedProductResult.Message);
+                return new Response<ProductResponseDTO>(validationResult.ToString());
             }
 
-            var updateResult = await this._productRepository.Update(updatedProductResult.Data);
+            var updateResult = await this._productRepository.Update(existingProduct);
 
             return new Response<ProductResponseDTO>(this._mapper.Map<ProductResponseDTO>(updateResult));
 

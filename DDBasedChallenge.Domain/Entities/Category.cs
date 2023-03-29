@@ -22,18 +22,11 @@ namespace DDDBasedChallenge.Domain.Entities
             Name = name;
         }
 
-        public static Response<Category> Create(string name)
+        public static Category Create(string name)
         {
             var category = new Category(name);
 
-            var validationResult = new Validator().Validate(category);
-
-            if (!validationResult.IsValid) 
-            { 
-                return new Response<Category>(validationResult.ToString());
-            }
-
-            return new Response<Category>(category);
+            return category;
         }
 
         public Category AddProduct(Product product)
